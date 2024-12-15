@@ -1,0 +1,104 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import { LyricsParser } from "@/components/LyricsParser";
+import type { ParsedContent } from "@/types/lyrics";
+import type { MarkdownInstance } from "node_modules/astro/dist/types/public";
+import path from "node:path";
+
+export async function getStaticPaths() {
+  const lyricsFiles: MarkdownInstance<Record<string, any>>[] =
+    await Object.values(
+      import.meta.glob("@/data/lyrics/**/*.md", { eager: true })
+    );
+
+  return lyricsFiles.map((file) => {
+    // 從檔案路徑取得參數
+    const parsedPath = path.parse(file.file);
+    const pathSegments = parsedPath.dir.split("/");
+    const songName = parsedPath.name;
+    const album = pathSegments.at(-1);
+    const artist = pathSegments.at(-2);
+
+    // 確保所有必要參數都存在
+    if (!songName || !album || !artist) {
+      throw new Error(`Invalid file path structure: ${file.file}`);
+    }
+
+    return {
+      params: {
+        song: `${artist}/${album}/${songName}`,
+      },
+      props: {
+        frontmatter: file.frontmatter,
+        content: file.rawContent(),
+      },
+    };
+  });
+}
+
+// const { artist, album, songName } = Astro.params;
+const { frontmatter, content } = Astro.props;
+const parsedLyrics: ParsedContent[][] = LyricsParser.parse(content);
+console.log({
+  content,
+});
+---
+
+<MainLayout title={frontmatter.title}>
+  <div class="lyrics-container">
+    <h1>{frontmatter.title}</h1>
+    {
+      parsedLyrics.map((line) => {
+        console.log(line);
+        return;
+      })
+    }
+    {
+      parsedLyrics.map((line) => (
+        <div class="lyrics-line">
+          {line.map((segment) => {
+            if (segment.type === "html") {
+              return <Fragment set:html={segment.content} />;
+            }
+            if (segment.type === "furigana") {
+              return (
+                <ruby>
+                  {segment.content}
+                  <rt>{segment.furigana}</rt>
+                </ruby>
+              );
+            }
+            if (segment.type === "special") {
+              return (
+                <ruby>
+                  <span class="underline">{segment.content}</span>
+                  <rt>{segment.furigana}</rt>
+                </ruby>
+              );
+            }
+            return <span>{segment.content}</span>;
+          })}
+        </div>
+      ))
+    }
+  </div>
+</MainLayout>
+
+<style>
+  ruby {
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+    line-height: 0.25;
+    margin-top: 1em;
+  }
+
+  rt {
+    text-align: center;
+    transform: translateY(-1.65rem); /* 可選：微調 rt 位置 */
+  }
+
+  .underline {
+    text-decoration: underline;
+  }
+</style>
