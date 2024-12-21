@@ -2,6 +2,10 @@
 import { getEnrichedAlbums } from "@/lib/albums";
 import { artistsConfig } from "@/data/artists";
 import { getDisplayAlbumType } from "@/types/albums";
+import console from "console";
+
+const { song } = Astro.params;
+const [currentArtist, currentAlbum, currentSong] = song ? song.split("/") : [];
 
 const enrichedAlbums = await Promise.all(
   Object.keys(artistsConfig).map(async (artistId) => {
@@ -12,7 +16,7 @@ const enrichedAlbums = await Promise.all(
 );
 ---
 
-<aside class="w-64 bg-white shadow-lg">
+<aside class="w-72 bg-white shadow-lg">
   <nav class="p-4">
     {
       enrichedAlbums.map(
@@ -25,39 +29,49 @@ const enrichedAlbums = await Promise.all(
                 </span>
               </div>
               <div class="space-y-4">
-                {artistData.albums.map((album) => (
-                  <div class="ml-2">
-                    <details>
-                      <summary class="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 rounded cursor-pointer">
-                        <div class="flex flex-col">
-                          {album.showTypeInNav && (
-                            <span class="text-xs text-gray-600">
-                              {getDisplayAlbumType(album)}
-                            </span>
-                          )}
-                          <span class="text-xs">{album.title}</span>
-                        </div>
-                        <span class="text-xs text-gray-500">
-                          {album.releaseMonth
-                            ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, "0")}`
-                            : album.releaseYear}
-                        </span>
-                      </summary>
-                      <ul class="ml-4 mt-1">
-                        {album.songs.map((song) => (
-                          <li>
-                            <a
-                              href={`/${artistData.pathname}/${album.id}/${song.id}`}
-                              class="block px-2 py-1 text-xs hover:text-blue-500"
-                            >
-                              {song.meta.title}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  </div>
-                ))}
+                {artistData.albums.map((album) => {
+                  const isCurrentAlbum =
+                    currentArtist === artistData.pathname &&
+                    currentAlbum === album.id;
+
+                  return (
+                    <div class="ml-2">
+                      <details open={isCurrentAlbum}>
+                        <summary class="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 rounded cursor-pointer">
+                          <div class="flex flex-col">
+                            {album.showTypeInNav && (
+                              <span class="text-xs text-gray-600">
+                                {getDisplayAlbumType(album)}
+                              </span>
+                            )}
+                            <span class="text-xs">{album.title}</span>
+                          </div>
+                          <span class="text-xs text-gray-500">
+                            {album.releaseMonth
+                              ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, "0")}`
+                              : album.releaseYear}
+                          </span>
+                        </summary>
+                        <ul class="ml-4 mt-1">
+                          {album.songs.map((song) => (
+                            <li>
+                              <a
+                                href={`/${artistData.pathname}/${album.id}/${song.id}`}
+                                class={`block px-2 py-1 text-xs ${
+                                  isCurrentAlbum && currentSong === song.id
+                                    ? "text-blue-600 font-semibold"
+                                    : "hover:text-blue-500"
+                                }`}
+                              >
+                                {song.meta.title}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )
@@ -75,3 +89,18 @@ const enrichedAlbums = await Promise.all(
   }
 </style>
 
+<script>
+  // 動態監聽路由變化，確保當前專輯始終展開
+  window.addEventListener("popstate", () => {
+    console.log(window.location.pathname);
+    const [, artist, album] = window.location.pathname.split("/");
+    const details = document.querySelectorAll("details");
+    details.forEach((detail) => {
+      const albumLink = detail.querySelector("summary span.text-xs");
+      detail.open =
+        albumLink && albumLink.textContent
+          ? albumLink.textContent.includes(album)
+          : false;
+    });
+  });
+</script>
