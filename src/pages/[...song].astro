@@ -1,36 +1,25 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
 import { LyricsParser } from "@/components/LyricsParser";
-import type { ParsedContent } from "@/types/lyrics";
-import type { MarkdownInstance } from "node_modules/astro/dist/types/public";
-import path from "node:path";
+import { getAllLyrics, type StyledLyricsElement } from "@/types/lyrics";
+import { getArtistById } from "@/lib/artists";
 
 export async function getStaticPaths() {
-  const lyricsFiles: MarkdownInstance<Record<string, any>>[] =
-    await Object.values(
-      import.meta.glob("@/data/lyrics/**/*.md", { eager: true })
-    );
+  const lyricsFiles = await getAllLyrics();
 
   return lyricsFiles.map((file) => {
-    // 從檔案路徑取得參數
-    const parsedPath = path.parse(file.file);
-    const pathSegments = parsedPath.dir.split("/");
-    const songName = parsedPath.name;
-    const album = pathSegments.at(-1);
-    const artist = pathSegments.at(-2);
-
-    // 確保所有必要參數都存在
-    if (!songName || !album || !artist) {
-      throw new Error(`Invalid file path structure: ${file.file}`);
+    const artist = getArtistById(file.artistId);
+    if (!artist) {
+      throw new Error(`Artist not found: ${file.artistId}`);
     }
 
     return {
       params: {
-        song: `${artist}/${album}/${songName}`,
+        song: `${artist.pathname}/${file.albumId}/${file.id}`,
       },
       props: {
-        frontmatter: file.frontmatter,
-        content: file.rawContent(),
+        frontmatter: file.meta,
+        content: file.content(),
       },
     };
   });
@@ -38,10 +27,7 @@ export async function getStaticPaths() {
 
 // const { artist, album, songName } = Astro.params;
 const { frontmatter, content } = Astro.props;
-const parsedLyrics: ParsedContent[][] = LyricsParser.parse(content);
-console.log({
-  content,
-});
+const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
 ---
 
 <MainLayout title={frontmatter.title}>
