@@ -2,6 +2,7 @@
 import { artistsConfig } from '@/data/artists';
 import { getEnrichedAlbums } from '@/lib/albums';
 import { getDisplayAlbumType } from '@/types/albums';
+import TitleDisplay from './TitleDisplay.astro';
 
 const { song } = Astro.params;
 const [currentArtist, currentAlbum, currentSong] = song ? song.split('/') : [];
@@ -25,7 +26,7 @@ const enrichedAlbums = await Promise.all(
               <div class="px-2 py-3 mb-2 bg-gray-100 rounded">
                 <span class="font-medium text-sm">{artistData.displayName}</span>
               </div>
-              <div class="space-y-4">
+              <div class="space-y-2">
                 {artistData.albums.map((album) => {
                   const isCurrentAlbum =
                     currentArtist === artistData.pathname && currentAlbum === album.id;
@@ -40,7 +41,7 @@ const enrichedAlbums = await Promise.all(
                                 {getDisplayAlbumType(album)}
                               </span>
                             )}
-                            <span class="text-xs">{album.title}</span>
+                            <TitleDisplay title={album.title} size="sm" />
                           </div>
                           <span class="text-xs text-gray-500">
                             {album.releaseMonth
@@ -52,14 +53,14 @@ const enrichedAlbums = await Promise.all(
                           {album.songs.map((song) => (
                             <li>
                               <a
-                                href={`${import.meta.env.BASE_URL}/${artistData.pathname}/${album.id}/${song.id}`}
+                                href={`${import.meta.env.BASE_URL}${artistData.pathname}/${album.id}/${song.id}`}
                                 class={`block px-2 py-1 text-xs ${
                                   isCurrentAlbum && currentSong === song.id
                                     ? 'text-blue-600 font-semibold'
                                     : 'hover:text-blue-500'
                                 }`}
                               >
-                                {song.meta.title}
+                                <TitleDisplay title={song.meta.title} size="sm" />
                               </a>
                             </li>
                           ))}

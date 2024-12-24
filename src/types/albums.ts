@@ -28,6 +28,8 @@ export interface AlbumInfo {
 
   /** 完整標題 */
   title: string
+  subTitle?: string // 用於顯示標音或副標題
+  displayTitle?: string // 用於自定義顯示格式
 
   /** 排序權重 */
   sortOrder: number

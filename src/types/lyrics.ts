@@ -97,6 +97,8 @@ export interface LyricsFile {
   meta: {
     // 重新命名且擴展的元資料
     title: string
+    titleReading?: string // 新增標音屬性
+    displayTitle?: string // 自定義顯示格式
     vocal?: string
     album?: string
   }

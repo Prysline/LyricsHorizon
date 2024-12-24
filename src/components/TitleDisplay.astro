@@ -1,0 +1,43 @@
+---
+// components/TitleDisplay.astro
+interface Props {
+  title: string;
+  className?: string;
+  size?: 'sm' | 'base';
+}
+
+const { title, className = '', size = 'base' } = Astro.props;
+
+function formatTitle(title: string) {
+  const titleMatch = title.match(/{{(.+?):(.+?)}}/);
+  if (titleMatch) {
+    return {
+      mainText: titleMatch[1],
+      reading: titleMatch[2],
+    };
+  }
+  return { mainText: title };
+}
+
+const { mainText, reading } = formatTitle(title);
+const textSize = size === 'sm' ? 'text-xs' : 'text-sm';
+---
+
+<div class={`inline-flex flex-col ${className}`}>
+  {
+    reading && (
+      <span
+        class={`text-gray-500 ${size === 'sm' ? 'text-[10px]' : 'text-xs'} leading-tight text-center`}
+      >
+        {reading}
+      </span>
+    )
+  }
+  <span class={`${textSize} leading-tight text-center`}>{mainText}</span>
+</div>
+
+<style>
+  div {
+    text-align-last: center;
+  }
+</style>
