@@ -6,10 +6,13 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site:
     process.env.NODE_ENV === 'production' ? 'https://prysline.github.io' : 'http://localhost:4321',
-  base: process.env.NODE_ENV === 'production' ? '/LyricsHorizon/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/LyricsHorizon' : '/LyricsHorizon',
   integrations: [tailwind()],
   compilerOptions: {
     strict: true,
     strictNullChecks: true,
+  },
+  build: {
+    format: 'preserve',
   },
 });
