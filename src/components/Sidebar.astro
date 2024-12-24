@@ -52,7 +52,7 @@ const enrichedAlbums = await Promise.all(
                           {album.songs.map((song) => (
                             <li>
                               <a
-                                href={`${import.meta.env.BASE_URL}${artistData.pathname}/${album.id}/${song.id}`}
+                                href={`${import.meta.env.BASE_URL}/${artistData.pathname}/${album.id}/${song.id}`}
                                 class={`block px-2 py-1 text-xs ${
                                   isCurrentAlbum && currentSong === song.id
                                     ? 'text-blue-600 font-semibold'
