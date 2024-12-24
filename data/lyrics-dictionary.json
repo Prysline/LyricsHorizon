@@ -1,6 +1,11 @@
 {
   "custom_readings": [
     {
+      "original": "一(いち)人(にん)",
+      "replacement": "一人(ひとり)",
+      "context": "歌詞讀音"
+    },
+    {
       "original": "二(に)人(にん)",
       "replacement": "二人(ふたり)",
       "context": "歌詞讀音"
@@ -48,6 +53,11 @@
     {
       "original": "鏡(きょう)",
       "replacement": "鏡(かがみ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "君(くん)",
+      "replacement": "君(きみ)",
       "context": "歌詞讀音"
     }
   ]

@@ -21,4 +21,12 @@ export const soundHorizonAlbums: Record<string, AlbumInfo> = {
     releaseYear: 2014,
     releaseMonth: 10,
   },
+  hallow: {
+    baseType: 'Story Maxi',
+    title: 'ハロウィンと夜の物語',
+    sortOrder: 71,
+    showTypeInNav: true,
+    releaseYear: 2013,
+    releaseMonth: 10,
+  },
 }
