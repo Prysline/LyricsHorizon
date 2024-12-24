@@ -59,6 +59,16 @@
       "original": "君(くん)",
       "replacement": "君(きみ)",
       "context": "歌詞讀音"
+    },
+    {
+      "original": "鳴(な)呼(こ)",
+      "replacement": "鳴呼(ああ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "傍(はた)",
+      "replacement": "傍(そば)",
+      "context": "歌詞讀音"
     }
   ]
 }
