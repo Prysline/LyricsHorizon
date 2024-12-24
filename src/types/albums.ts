@@ -1,4 +1,3 @@
-
 /**
  * 專輯基礎類型
  */
@@ -9,47 +8,47 @@ export type AlbumBaseType =
   | 'Concept Story CD'
   | 'Anniversary Maxi'
   | 'Prologue Maxi'
-  | 'Major Debut Album';
+  | 'Major Debut Album'
 
 /**
  * 專輯資訊介面
  */
 export interface AlbumInfo {
-  /** 
+  /**
    * 基礎類型（可選）
    * 某些特殊專輯可能沒有明確類型
    */
-  baseType?: AlbumBaseType;
+  baseType?: AlbumBaseType
 
   /** 序號（可選） */
   order?: {
-    value: number;
-    display: string;
-  };
+    value: number
+    display: string
+  }
 
   /** 完整標題 */
-  title: string;
+  title: string
 
   /** 排序權重 */
-  sortOrder: number;
+  sortOrder: number
 
-  /** 
+  /**
    * 是否在側邊欄顯示類型
    * 用於控制顯示行為
    */
-  showTypeInNav?: boolean;
+  showTypeInNav?: boolean
 
-  /** 
- * 發行年份 
- * 用於排序和顯示
- */
-  releaseYear: number;
+  /**
+   * 發行年份
+   * 用於排序和顯示
+   */
+  releaseYear: number
 
-  /** 
+  /**
    * 發行月份（可選）
    * 若同年發行則可用於更精確的排序
    */
-  releaseMonth?: number;
+  releaseMonth?: number
 }
 
 /**
@@ -58,10 +57,9 @@ export interface AlbumInfo {
  */
 export function getDisplayAlbumType(info: AlbumInfo): string {
   if (!info.baseType || !info.showTypeInNav) {
-    return '';
+    return ''
   }
 
-  const orderText = info.order ? `${info.order.display} ` : '';
-  return `${orderText}${info.baseType}`;
+  const orderText = info.order ? `${info.order.display} ` : ''
+  return `${orderText}${info.baseType}`
 }
-

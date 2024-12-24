@@ -3,7 +3,12 @@
     {
       "original": "二(に)人(にん)",
       "replacement": "二人(ふたり)",
-      "context": "特殊歌詞讀音"
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "今(こん)",
+      "replacement": "今(いま)",
+      "context": "歌詞讀音"
     }
   ]
 }

@@ -3,12 +3,10 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "[typescript]": {
-  "editor.defaultFormatter": "vscode.typescript-language-features",
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false
   },
-  "cSpell.words": [
-    "frontmatter"
-  ]
+  "cSpell.words": ["frontmatter"]
 }

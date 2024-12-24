@@ -1,7 +1,7 @@
 ---
-import Sidebar from "../components/Sidebar.astro";
+import Sidebar from '../components/Sidebar.astro'
 
-const title = "Horizon Kingdom";
+const title = 'Lyrics Horizon';
 ---
 
 <!doctype html>
@@ -16,7 +16,7 @@ const title = "Horizon Kingdom";
         font-family: 'Noto Sans JP', sans-serif;
         background-color: #f1f1f1;
         color: #333;
-        line-height: 1.6;
+        line-height: 1.5;
       }
     </style>
   </head>
@@ -24,7 +24,7 @@ const title = "Horizon Kingdom";
     <Sidebar />
 
     <main class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto bg-white/70 shadow-lg shadow-gray-200/50 backdrop-blur-sm">
-      <div class="max-w-4xl mx-auto">
+      <div class="max-w-4xl">
         <slot />
       </div>
     </main>
@@ -63,14 +63,14 @@ const title = "Horizon Kingdom";
     line-height: 1.3;
   }
 
-  h1 { 
-    font-size: 2rem; 
+  h1 {
+    font-size: 2rem;
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 0.5rem;
   }
 
-  h2 { 
-    font-size: 1.5rem; 
+  h2 {
+    font-size: 1.5rem;
     color: var(--text-color-secondary);
   }
 

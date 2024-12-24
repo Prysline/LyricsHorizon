@@ -1,11 +1,11 @@
-import { getArtistByPathname } from "@/lib/artists";
-import path from "node:path";
+import path from 'node:path'
+import { getArtistByPathname } from '@/lib/artists'
 
 /**
  * 歌詞元素的類型列舉
  * 定義了歌詞中可能出現的不同內容形式
  */
-export type LyricsElementType = 'text' | 'html' | 'furigana' | 'special';
+export type LyricsElementType = 'text' | 'html' | 'furigana' | 'special'
 
 /**
  * 基礎歌詞元素介面
@@ -13,11 +13,11 @@ export type LyricsElementType = 'text' | 'html' | 'furigana' | 'special';
  */
 export interface LyricsElement {
   /** 元素類型 */
-  type: LyricsElementType;
+  type: LyricsElementType
   /** 主要內容 */
-  content: string;
+  content: string
   /** 假名標註（用於日文歌詞） */
-  furigana?: string;
+  furigana?: string
 }
 
 /**
@@ -26,13 +26,12 @@ export interface LyricsElement {
  */
 export interface LyricsMeta {
   /** 歌曲標題 */
-  title: string;
+  title: string
   /** 演唱者 */
-  vocal?: string;
+  vocal?: string
   /** 專輯名稱 */
-  album?: string;
+  album?: string
 }
-
 
 /**
  * 已解析的歌詞元素
@@ -40,7 +39,7 @@ export interface LyricsMeta {
  */
 export interface ParsedLyricsElement extends LyricsElement {
   /** 標記是否經過修改 */
-  isModified?: boolean;
+  isModified?: boolean
 }
 
 /**
@@ -49,20 +48,19 @@ export interface ParsedLyricsElement extends LyricsElement {
  */
 export interface StyledLyricsElement extends LyricsElement {
   /** CSS 樣式對象 */
-  style?: Record<string, string>;
+  style?: Record<string, string>
 }
-
 
 /**
  * 完整的歌詞文件結構
  */
 export interface LyricsDocument {
   /** 歌曲元資料 */
-  meta: LyricsMeta;
+  meta: LyricsMeta
   /** 前言文字（選用） */
-  prologueText?: string[];
+  prologueText?: string[]
   /** 分段的歌詞內容 */
-  segments: StyledLyricsElement[][];
+  segments: StyledLyricsElement[][]
 }
 
 /**
@@ -70,53 +68,54 @@ export interface LyricsDocument {
  */
 export interface ParsedLyricsDocument {
   /** 歌曲元資料 */
-  meta: LyricsMeta;
+  meta: LyricsMeta
   /** 已解析的內容 */
-  content: ParsedLyricsElement[][];
+  content: ParsedLyricsElement[][]
 }
 
 // 1. 定義原始檔案介面
 export interface RawLyricsFile {
-  file: string;
+  file: string
   frontmatter: {
-    title: string;
-    vocal?: string;
-    album?: string;
-  };
-  rawContent: () => string;
+    title: string
+    vocal?: string
+    album?: string
+  }
+  rawContent: () => string
 }
 
 export function getLyricsFileName(file: RawLyricsFile): string {
-  return path.basename(file.file, path.extname(file.file));
+  return path.basename(file.file, path.extname(file.file))
 }
 
 // 2. 定義應用程式使用的介面
 export interface LyricsFile {
-  id: string;        // 檔案識別碼
-  artistId: string;    // 歌手/團體
-  albumId: string;     // 專輯
-  filepath: string;  // 檔案路徑
-  meta: {           // 重新命名且擴展的元資料
-    title: string;
-    vocal?: string;
-    album?: string;
-  };
-  content: () => string;  // 重新命名的內容獲取函數
+  id: string // 檔案識別碼
+  artistId: string // 歌手/團體
+  albumId: string // 專輯
+  filepath: string // 檔案路徑
+  meta: {
+    // 重新命名且擴展的元資料
+    title: string
+    vocal?: string
+    album?: string
+  }
+  content: () => string // 重新命名的內容獲取函數
 }
 
 // 3. 建立轉換函數
 export function transformLyricsFile(raw: RawLyricsFile): LyricsFile {
-  const pathSegments = raw.file.split("/");
-  const pathArtist = pathSegments.at(-3);
+  const pathSegments = raw.file.split('/')
+  const pathArtist = pathSegments.at(-3)
 
   if (!pathArtist) {
-    throw new Error(`Invalid file path structure: ${raw.file}`);
+    throw new Error(`Invalid file path structure: ${raw.file}`)
   }
 
   // 將檔案路徑中的藝術家名稱轉換為系統識別碼
-  const artistInfo = getArtistByPathname(pathArtist);
+  const artistInfo = getArtistByPathname(pathArtist)
   if (!artistInfo) {
-    throw new Error(`Unknown artist: ${pathArtist}`);
+    throw new Error(`Unknown artist: ${pathArtist}`)
   }
 
   return {
@@ -125,15 +124,15 @@ export function transformLyricsFile(raw: RawLyricsFile): LyricsFile {
     albumId: pathSegments.at(-2) ?? '',
     filepath: raw.file,
     meta: { ...raw.frontmatter },
-    content: raw.rawContent
-  };
+    content: raw.rawContent,
+  }
 }
 
 // 4. 更新獲取函數
 export async function getAllLyrics(): Promise<LyricsFile[]> {
-  const rawFiles = await Object.values(
-    import.meta.glob("@/data/lyrics/**/*.md", { eager: true })
-  ) as RawLyricsFile[];
+  const rawFiles = (await Object.values(
+    import.meta.glob('@/data/lyrics/**/*.md', { eager: true }),
+  )) as RawLyricsFile[]
 
-  return rawFiles.map(transformLyricsFile);
+  return rawFiles.map(transformLyricsFile)
 }

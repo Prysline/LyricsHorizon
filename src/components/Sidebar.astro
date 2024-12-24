@@ -1,18 +1,17 @@
 ---
-import { getEnrichedAlbums } from "@/lib/albums";
-import { artistsConfig } from "@/data/artists";
-import { getDisplayAlbumType } from "@/types/albums";
-import console from "console";
+import { artistsConfig } from '@/data/artists'
+import { getEnrichedAlbums } from '@/lib/albums'
+import { getDisplayAlbumType } from '@/types/albums'
 
-const { song } = Astro.params;
-const [currentArtist, currentAlbum, currentSong] = song ? song.split("/") : [];
+const { song } = Astro.params
+const [currentArtist, currentAlbum, currentSong] = song ? song.split('/') : []
 
 const enrichedAlbums = await Promise.all(
   Object.keys(artistsConfig).map(async (artistId) => {
-    const albums = await getEnrichedAlbums(artistId);
-    const artist = artistsConfig[artistId];
-    return { ...artist, albums };
-  })
+    const albums = await getEnrichedAlbums(artistId)
+    const artist = artistsConfig[artistId]
+    return { ...artist, albums }
+  }),
 );
 ---
 
@@ -20,19 +19,19 @@ const enrichedAlbums = await Promise.all(
   <nav class="p-4">
     {
       enrichedAlbums.map(
-        (artistData) =>
+        artistData =>
           artistData.albums.length > 0 && (
             <div class="mb-6">
-              <div class="px-2 py-2 mb-2 bg-gray-100 rounded">
+              <div class="px-2 py-3 mb-2 bg-gray-100 rounded">
                 <span class="font-medium text-sm">
                   {artistData.displayName}
                 </span>
               </div>
               <div class="space-y-4">
                 {artistData.albums.map((album) => {
-                  const isCurrentAlbum =
-                    currentArtist === artistData.pathname &&
-                    currentAlbum === album.id;
+                  const isCurrentAlbum
+                    = currentArtist === artistData.pathname
+                    && currentAlbum === album.id
 
                   return (
                     <div class="ml-2">
@@ -48,19 +47,19 @@ const enrichedAlbums = await Promise.all(
                           </div>
                           <span class="text-xs text-gray-500">
                             {album.releaseMonth
-                              ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, "0")}`
+                              ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, '0')}`
                               : album.releaseYear}
                           </span>
                         </summary>
                         <ul class="ml-4 mt-1">
-                          {album.songs.map((song) => (
+                          {album.songs.map(song => (
                             <li>
                               <a
                                 href={`/${artistData.pathname}/${album.id}/${song.id}`}
                                 class={`block px-2 py-1 text-xs ${
                                   isCurrentAlbum && currentSong === song.id
-                                    ? "text-blue-600 font-semibold"
-                                    : "hover:text-blue-500"
+                                    ? 'text-blue-600 font-semibold'
+                                    : 'hover:text-blue-500'
                                 }`}
                               >
                                 {song.meta.title}
@@ -70,11 +69,11 @@ const enrichedAlbums = await Promise.all(
                         </ul>
                       </details>
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
-          )
+          ),
       )
     }
   </nav>
@@ -90,17 +89,17 @@ const enrichedAlbums = await Promise.all(
 </style>
 
 <script>
-  // 動態監聽路由變化，確保當前專輯始終展開
-  window.addEventListener("popstate", () => {
-    console.log(window.location.pathname);
-    const [, artist, album] = window.location.pathname.split("/");
-    const details = document.querySelectorAll("details");
-    details.forEach((detail) => {
-      const albumLink = detail.querySelector("summary span.text-xs");
-      detail.open =
-        albumLink && albumLink.textContent
-          ? albumLink.textContent.includes(album)
-          : false;
-    });
-  });
+// 動態監聽路由變化，確保當前專輯始終展開
+window.addEventListener('popstate', () => {
+  console.log(window.location.pathname)
+  const [, artist, album] = window.location.pathname.split('/')
+  const details = document.querySelectorAll('details')
+  details.forEach((detail) => {
+    const albumLink = detail.querySelector('summary span.text-xs')
+    detail.open
+      = albumLink && albumLink.textContent
+        ? albumLink.textContent.includes(album)
+        : false
+  })
+})
 </script>

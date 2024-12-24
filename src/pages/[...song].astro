@@ -1,16 +1,16 @@
 ---
-import MainLayout from "@/layouts/MainLayout.astro";
-import { LyricsParser } from "@/components/LyricsParser";
-import { getAllLyrics, type StyledLyricsElement } from "@/types/lyrics";
-import { getArtistById } from "@/lib/artists";
+import { LyricsParser } from '@/components/LyricsParser'
+import MainLayout from '@/layouts/MainLayout.astro'
+import { getArtistById } from '@/lib/artists'
+import { getAllLyrics, type StyledLyricsElement } from '@/types/lyrics'
 
 export async function getStaticPaths() {
-  const lyricsFiles = await getAllLyrics();
+  const lyricsFiles = await getAllLyrics()
 
   return lyricsFiles.map((file) => {
-    const artist = getArtistById(file.artistId);
+    const artist = getArtistById(file.artistId)
     if (!artist) {
-      throw new Error(`Artist not found: ${file.artistId}`);
+      throw new Error(`Artist not found: ${file.artistId}`)
     }
 
     return {
@@ -21,12 +21,12 @@ export async function getStaticPaths() {
         frontmatter: file.meta,
         content: file.content(),
       },
-    };
-  });
+    }
+  })
 }
 
 // const { artist, album, songName } = Astro.params;
-const { frontmatter, content } = Astro.props;
+const { frontmatter, content } = Astro.props
 const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
 ---
 
@@ -35,34 +35,34 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
     <h1>{frontmatter.title}</h1>
     {
       parsedLyrics.map((line) => {
-        console.log(line);
-        return;
+        // console.log(line);
+
       })
     }
     {
-      parsedLyrics.map((line) => (
+      parsedLyrics.map(line => (
         <div class="lyrics-line">
           {line.map((segment) => {
-            if (segment.type === "html") {
-              return <Fragment set:html={segment.content} />;
+            if (segment.type === 'html') {
+              return <Fragment set:html={segment.content} />
             }
-            if (segment.type === "furigana") {
+            if (segment.type === 'furigana') {
               return (
                 <ruby>
                   {segment.content}
                   <rt>{segment.furigana}</rt>
                 </ruby>
-              );
+              )
             }
-            if (segment.type === "special") {
+            if (segment.type === 'special') {
               return (
                 <ruby>
                   <span class="underline">{segment.content}</span>
                   <rt>{segment.furigana}</rt>
                 </ruby>
-              );
+              )
             }
-            return <span>{segment.content}</span>;
+            return <span>{segment.content}</span>
           })}
         </div>
       ))
@@ -71,12 +71,13 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
 </MainLayout>
 
 <style>
+
   ruby {
     display: inline-flex;
     flex-direction: column;
     text-align: center;
-    line-height: 0.25;
-    margin-top: 1em;
+    line-height: 0.1;
+    margin-top: 1.5em;
   }
 
   rt {
