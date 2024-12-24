@@ -9,6 +9,46 @@
       "original": "今(こん)",
       "replacement": "今(いま)",
       "context": "歌詞讀音"
+    },
+    {
+      "original": "物心(ぶっしん)",
+      "replacement": "物心(ものごころ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "人(じん)",
+      "replacement": "人(ひと)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "心(しん)",
+      "replacement": "心(こころ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "下(か)",
+      "replacement": "下(した)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "傍(はた)に",
+      "replacement": "傍(そば)に",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "一(いち)本(ほん)",
+      "replacement": "一本(いっぽん)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "奴(やっこ)",
+      "replacement": "奴(やつ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "鏡(きょう)",
+      "replacement": "鏡(かがみ)",
+      "context": "歌詞讀音"
     }
   ]
 }

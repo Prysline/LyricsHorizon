@@ -13,4 +13,12 @@ export const soundHorizonAlbums: Record<string, AlbumInfo> = {
     releaseYear: 2023,
     releaseMonth: 6,
   },
+  vanistar: {
+    baseType: 'Anniversary Maxi',
+    title: '{{いずれ滅びゆく星の煌めき:ヴァニシング·スターライト}}',
+    sortOrder: 72,
+    showTypeInNav: true,
+    releaseYear: 2014,
+    releaseMonth: 10,
+  },
 }
