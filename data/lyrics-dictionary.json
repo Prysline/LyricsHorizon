@@ -69,6 +69,16 @@
       "original": "傍(はた)",
       "replacement": "傍(そば)",
       "context": "歌詞讀音"
+    },
+    {
+      "original": "車(しゃ)",
+      "replacement": "車(くるま)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "船(せん)",
+      "replacement": "船(ふね)",
+      "context": "歌詞讀音"
     }
   ]
 }
