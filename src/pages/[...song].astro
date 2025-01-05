@@ -2,7 +2,7 @@
 import { LyricsParser } from '@/components/LyricsParser'
 import MainLayout from '@/layouts/MainLayout.astro'
 import { getArtistById } from '@/lib/artists'
-import { getAllLyrics, type StyledLyricsElement } from '@/types/lyrics'
+import { getAllLyrics, lyricsElementType, type StyledLyricsElement } from '@/types/lyrics'
 
 export async function getStaticPaths() {
   const lyricsFiles = await getAllLyrics()
@@ -34,30 +34,59 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
   <div class="lyrics-container">
     <h1>{frontmatter.title}</h1>
     {
-      parsedLyrics.map((line) => {
-        // console.log(line);
-
-      })
-    }
-    {
       parsedLyrics.map(line => (
         <div class="lyrics-line">
           {line.map((segment) => {
-            if (segment.type === 'html') {
+            if (segment.type === lyricsElementType.HTML) {
               return <Fragment set:html={segment.content} />
             }
-            if (segment.type === 'furigana') {
+            if (
+              segment.type === lyricsElementType.FURIGANA
+              || segment.type === lyricsElementType.SPECIAL
+            ) {
+              if (segment.isNested) {
+                // 處理巢狀結構
+                return (
+                  <span class="nested-container relative">
+                    {segment.type === lyricsElementType.SPECIAL && (
+                      <ruby>
+                        <span class="underline">{segment.content}</span>
+                        <rt class="nested-rt">
+                          {/* 遞迴渲染巢狀元素 */}
+                          {segment.nestedElements?.map(nestedSegment => (
+                            <ruby>
+                              {nestedSegment.content}
+                              <rt>{nestedSegment.furigana}</rt>
+                            </ruby>
+                          ))}
+                        </rt>
+                      </ruby>
+                    )}
+                    {segment.type === 'furigana' && (
+                      <ruby>
+                        {segment.content}
+                        <rt class="nested-rt">
+                          {segment.nestedElements?.map(nestedSegment => (
+                            <ruby>
+                              {nestedSegment.content}
+                              <rt>{nestedSegment.furigana}</rt>
+                            </ruby>
+                          ))}
+                        </rt>
+                      </ruby>
+                    )}
+                  </span>
+                )
+              }
               return (
                 <ruby>
-                  {segment.content}
-                  <rt>{segment.furigana}</rt>
-                </ruby>
-              )
-            }
-            if (segment.type === 'special') {
-              return (
-                <ruby>
-                  <span class="underline">{segment.content}</span>
+                  {segment.type === lyricsElementType.SPECIAL
+? (
+                    <span class="underline">{segment.content}</span>
+                  )
+: (
+                    segment.content
+                  )}
                   <rt>{segment.furigana}</rt>
                 </ruby>
               )
@@ -71,20 +100,54 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
 </MainLayout>
 
 <style>
+  .lyrics-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.2em;
+    min-height: 1em;
+    margin: 0.2em 0;
+  }
 
   ruby {
     display: inline-flex;
-    flex-direction: column;
-    text-align: center;
-    line-height: 0.1;
-    margin-top: 1.5em;
+    flex-direction: column-reverse;
+    align-items: center;
+    vertical-align: bottom;
+    margin: 0;
+    padding: 0;
   }
 
   rt {
+    display: block;
+    font-size: 0.75em;
+    opacity: 0.75;
+    line-height: 1;
     text-align: center;
-    transform: translateY(-1.65rem); /* 可選：微調 rt 位置 */
+    /* 確保 rt 的寬度與其下方文字相同 */
+    width: 100%;
   }
 
+  .lyrics-line ruby > rt {
+    transform: translateY(0.2em);
+  }
+
+  /* 巢狀 ruby 的特殊處理 */
+  .nested-rt ruby {
+    display: inline-flex;
+    margin: 0 0.1em;
+  }
+
+  .nested-rt ruby rt {
+    transform: translateY(-0.05em);
+    font-size: 0.75em;
+  }
+
+  .nested-container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .underline {
     text-decoration: underline;
   }

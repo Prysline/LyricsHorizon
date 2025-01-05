@@ -5,7 +5,14 @@ import { getArtistByPathname } from '@/lib/artists'
  * 歌詞元素的類型列舉
  * 定義了歌詞中可能出現的不同內容形式
  */
-export type LyricsElementType = 'text' | 'html' | 'furigana' | 'special'
+export enum lyricsElementType {
+  TEXT = 'text',
+  HTML = 'html',
+  FURIGANA = 'furigana',
+  SPECIAL = 'special',
+}
+
+export type LyricsElementType = lyricsElementType
 
 /**
  * 基礎歌詞元素介面
@@ -40,6 +47,8 @@ export interface LyricsMeta {
 export interface ParsedLyricsElement extends LyricsElement {
   /** 標記是否經過修改 */
   isModified?: boolean
+  isNested?: boolean
+  nestedElements?: ParsedLyricsElement[]
 }
 
 /**
@@ -49,6 +58,8 @@ export interface ParsedLyricsElement extends LyricsElement {
 export interface StyledLyricsElement extends LyricsElement {
   /** CSS 樣式對象 */
   style?: Record<string, string>
+  isNested?: boolean
+  nestedElements?: ParsedLyricsElement[]
 }
 
 /**
