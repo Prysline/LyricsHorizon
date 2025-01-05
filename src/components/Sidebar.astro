@@ -1,18 +1,18 @@
 ---
-import { artistsConfig } from '@/data/artists';
-import { getEnrichedAlbums } from '@/lib/albums';
-import { getDisplayAlbumType } from '@/types/albums';
-import TitleDisplay from './TitleDisplay.astro';
+import { artistsConfig } from '@/data/artists'
+import { getEnrichedAlbums } from '@/lib/albums'
+import { getDisplayAlbumType } from '@/types/albums'
+import TitleDisplay from './TitleDisplay.astro'
 
-const { song } = Astro.params;
-const [currentArtist, currentAlbum, currentSong] = song ? song.split('/') : [];
+const { song } = Astro.params
+const [currentArtist, currentAlbum, currentSong] = song ? song.split('/') : []
 
 const enrichedAlbums = await Promise.all(
   Object.keys(artistsConfig).map(async (artistId) => {
-    const albums = await getEnrichedAlbums(artistId);
-    const artist = artistsConfig[artistId];
-    return { ...artist, albums };
-  })
+    const albums = await getEnrichedAlbums(artistId)
+    const artist = artistsConfig[artistId]
+    return { ...artist, albums }
+  }),
 );
 ---
 
@@ -20,7 +20,7 @@ const enrichedAlbums = await Promise.all(
   <nav class="p-4">
     {
       enrichedAlbums.map(
-        (artistData) =>
+        artistData =>
           artistData.albums.length > 0 && (
             <div class="mb-6">
               <div class="px-2 py-3 mb-2 bg-gray-100 rounded">
@@ -28,8 +28,7 @@ const enrichedAlbums = await Promise.all(
               </div>
               <div class="space-y-2">
                 {artistData.albums.map((album) => {
-                  const isCurrentAlbum =
-                    currentArtist === artistData.pathname && currentAlbum === album.id;
+                  const isCurrentAlbum = currentArtist === artistData.pathname && currentAlbum === album.id
 
                   return (
                     <div class="ml-2">
@@ -50,7 +49,7 @@ const enrichedAlbums = await Promise.all(
                           </span>
                         </summary>
                         <ul class="ml-4 mt-1">
-                          {album.songs.map((song) => (
+                          {album.songs.map(song => (
                             <li>
                               <a
                                 href={`${import.meta.env.BASE_URL}/${artistData.pathname}/${album.id}/${song.id}`}
@@ -67,11 +66,11 @@ const enrichedAlbums = await Promise.all(
                         </ul>
                       </details>
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
-          )
+          ),
       )
     }
   </nav>
@@ -87,15 +86,14 @@ const enrichedAlbums = await Promise.all(
 </style>
 
 <script>
-  // 動態監聽路由變化，確保當前專輯始終展開
-  window.addEventListener('popstate', () => {
-    console.log(window.location.pathname);
-    const [, artist, album] = window.location.pathname.split('/');
-    const details = document.querySelectorAll('details');
-    details.forEach((detail) => {
-      const albumLink = detail.querySelector('summary span.text-xs');
-      detail.open =
-        albumLink && albumLink.textContent ? albumLink.textContent.includes(album) : false;
-    });
-  });
+// 動態監聽路由變化，確保當前專輯始終展開
+window.addEventListener('popstate', () => {
+  const [, _, album] = window.location.pathname.split('/')
+  const details = document.querySelectorAll('details')
+  details.forEach((detail) => {
+    const albumLink = detail.querySelector('summary span.text-xs')
+    detail.open
+      = albumLink && albumLink.textContent ? albumLink.textContent.includes(album) : false
+  })
+})
 </script>

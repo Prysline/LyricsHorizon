@@ -19,14 +19,12 @@ export function getAlbumInfo(artist: string, albumId: string) {
 function compareAlbums(a: AlbumInfo, b: AlbumInfo): number {
   // 優先比較年份（降序：新的在前）
   const yearDiff = b.releaseYear - a.releaseYear
-  if (yearDiff !== 0)
-    return yearDiff
+  if (yearDiff !== 0) { return yearDiff }
 
   // 年份相同時比較月份（如果有）
   if (a.releaseMonth && b.releaseMonth) {
     const monthDiff = b.releaseMonth - a.releaseMonth
-    if (monthDiff !== 0)
-      return monthDiff
+    if (monthDiff !== 0) { return monthDiff }
   }
 
   // 年月都相同時，使用 sortOrder 作為最後的排序依據
@@ -53,15 +51,6 @@ export function getArtistAlbums(artist: string) {
 }
 
 /**
- * 整合後的專輯資訊介面
- */
-interface EnrichedAlbumInfo extends AlbumInfo {
-  id: string
-  songs: LyricsFile[]
-  hasContent: boolean // 標記是否有歌詞內容
-}
-
-/**
  * 整合專輯配置與實際歌詞檔案
  */
 export async function getEnrichedAlbums(artistId: string) {
@@ -78,8 +67,7 @@ export async function getEnrichedAlbums(artistId: string) {
         const albumId = file.albumId
         const songId = file.id
 
-        if (!albumId)
-          return acc
+        if (!albumId) { return acc }
 
         if (!acc[albumId]) {
           acc[albumId] = []
@@ -109,8 +97,7 @@ export async function getEnrichedAlbums(artistId: string) {
     .sort((a, b) => {
       // 依年份降序排序
       const yearDiff = b.releaseYear - a.releaseYear
-      if (yearDiff !== 0)
-        return yearDiff
+      if (yearDiff !== 0) { return yearDiff }
       return (b.releaseMonth || 0) - (a.releaseMonth || 0)
     })
 

@@ -127,7 +127,7 @@ export function transformLyricsFile(raw: RawLyricsFile): LyricsFile {
 
   // 將檔案路徑中的藝術家名稱轉換為系統識別碼
   const artistInfo = getArtistByPathname(pathArtist)
-  if (!artistInfo) {
+  if (artistInfo == null) {
     throw new Error(`Unknown artist: ${pathArtist}`)
   }
 

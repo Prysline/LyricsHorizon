@@ -62,6 +62,6 @@ export function getDisplayAlbumType(info: AlbumInfo): string {
     return ''
   }
 
-  const orderText = info.order ? `${info.order.display} ` : ''
+  const orderText = (info.order != null) ? `${info.order.display} ` : ''
   return `${orderText}${info.baseType}`
 }

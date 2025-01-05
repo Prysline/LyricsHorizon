@@ -1,6 +1,7 @@
-import tailwind from '@astrojs/tailwind';
+import process from 'node:process'
+import tailwind from '@astrojs/tailwind'
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,4 +16,4 @@ export default defineConfig({
   build: {
     format: 'preserve',
   },
-});
+})

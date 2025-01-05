@@ -76,7 +76,8 @@ export class LyricsParser {
       // 處理非 HTML 的一般行
       if (line.trim() === '') {
         result.push([{ type: lyricsElementType.HTML, content: '<br>' }])
-      } else {
+      }
+      else {
         result.push([...this.parseLine(line), { type: lyricsElementType.HTML, content: '<br>' }])
       }
     }
@@ -84,8 +85,8 @@ export class LyricsParser {
   }
 
   private static countTags(text: string): boolean {
-    const openTags = text.match(/<[^/][^>]*>/g) || []
-    const closeTags = text.match(/<\/[^>]+>/g) || []
+    const openTags = text.match(/<[^/][^>]*>/g) ?? []
+    const closeTags = text.match(/<\/[^>]+>/g) ?? []
     return openTags.length === closeTags.length
   }
 

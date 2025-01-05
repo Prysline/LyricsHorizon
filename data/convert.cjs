@@ -1,3 +1,5 @@
+const console = require("console")
+const __dirname = require("__dirname")
 const fs = require('node:fs')
 const path = require('node:path')
 const Kuroshiro = require('kuroshiro')
