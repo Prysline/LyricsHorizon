@@ -1,6 +1,14 @@
 import type { AlbumInfo } from '@/types/albums'
 
 export const soundHorizonAlbums: Record<string, AlbumInfo> = {
+  hallowasa: {
+    baseType: 'Beyond Story Maxi',
+    title: 'ハロウィンと朝の物語',
+    sortOrder: 77,
+    showTypeInNav: true,
+    releaseYear: 2025,
+    releaseMonth: 3,
+  },
   emafull: {
     baseType: 'Story CD',
     order: {
