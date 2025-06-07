@@ -1,48 +1,98 @@
-# Astro Starter Kit: Basics
+# LyricsHorizon
 
-```sh
-npm create astro@latest -- --template basics
+一個專為個人歌唱練習需求設計的歌詞展示網站，主要收錄 Sound Horizon 等音樂團體的歌詞內容。
+
+## 🎵 特色功能
+
+- **日文歌詞支援**：完整支援振假名（Furigana）標記，便於歌唱練習
+- **多層次標記系統**：支援複雜的日文讀音標註和特殊標記
+- **響應式設計**：適配桌面和行動裝置
+- **結構化瀏覽**：依藝術家、專輯組織，便於快速查找
+- **優雅排版**：針對歌詞閱讀優化的視覺設計
+
+## 🛠 技術棧
+
+- **前端框架**：Astro
+- **樣式**：Tailwind CSS
+- **開發語言**：TypeScript
+- **測試**：Vitest
+- **程式碼品質**：ESLint
+
+## 📁 專案結構
+
+```
+src/
+├── components/          # 組件
+│   ├── LyricsParser.ts  # 歌詞解析器
+│   └── Sidebar.astro    # 側邊欄導航
+├── data/
+│   ├── lyrics/          # 歌詞檔案
+│   ├── albums/          # 專輯資訊
+│   └── artists.ts       # 藝術家配置
+├── pages/
+│   └── [...song].astro  # 動態歌詞頁面
+└── types/               # 型別定義
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 🎯 歌詞格式
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+支援多種日文歌詞標記格式：
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+- **基本假名**：`漢字(ひらがな)`
+- **進階標記**：`{{漢字:読み方}}`
+- **特殊標記**：`__{{漢字:読み方}}__`
+- **HTML 元素**：`<div class="verse">歌詞</div>`
 
-## 🚀 Project Structure
+## 🚀 開發指令
 
-Inside of your Astro project, you'll see the following folders and files:
+```bash
+# 安裝依賴
+npm install
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+# 開發模式
+npm run dev
+
+# 建置
+npm run build
+
+# 預覽
+npm run preview
+
+# 測試
+npm run test
+
+# 程式碼檢查
+npm run lint
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🎤 使用說明
 
-## 🧞 Commands
+本網站專為個人歌唱練習設計，提供：
 
-All commands are run from the root of the project, from a terminal:
+1. **清晰的假名標註**：幫助正確發音
+2. **結構化導航**：快速找到目標歌曲
+3. **優化的閱讀體驗**：適合歌唱時參考
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## ⚖️ 版權聲明
 
-## 👀 Want to learn more?
+- 本專案僅供個人學習和歌唱練習使用
+- 歌詞版權歸原作者及唱片公司所有
+- 請支持正版音樂作品
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🤖 AI 輔助開發
+
+本專案的部分功能使用 AI 工具輔助開發：
+
+- **程式碼架構設計**：Claude AI 協助設計組件結構和型別定義
+- **歌詞解析邏輯**：AI 輔助開發複雜的標記解析演算法
+- **文件撰寫**：本 README 由 AI 協助生成和優化
+
+AI 工具主要用於提升開發效率和代碼品質，所有核心邏輯和歌詞內容均經過人工審核確認。
+
+## 📄 授權
+
+MIT License
+
+---
+
+*為了更好的歌唱體驗而生 🎵*
