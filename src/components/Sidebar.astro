@@ -16,65 +16,64 @@ const enrichedAlbums = await Promise.all(
 );
 ---
 
-<aside class="w-72 bg-white shadow-lg">
-  <nav class="p-4">
-    {
-      enrichedAlbums.map(
-        artistData =>
-          artistData.albums.length > 0 && (
-            <div class="mb-6">
-              <div class="px-2 py-3 mb-2 bg-gray-100 rounded">
-                <span class="font-medium text-sm">{artistData.displayName}</span>
-              </div>
-              <div class="space-y-2">
-                {artistData.albums.map((album) => {
-                  const isCurrentAlbum = currentArtist === artistData.pathname && currentAlbum === album.id
-
-                  return (
-                    <div class="ml-2">
-                      <details open={isCurrentAlbum}>
-                        <summary class="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 rounded cursor-pointer">
-                          <div class="flex flex-col">
-                            {album.showTypeInNav && (
-                              <span class="text-xs text-gray-600">
-                                {getDisplayAlbumType(album)}
-                              </span>
-                            )}
-                            <TitleDisplay title={album.title} size="sm" />
-                          </div>
-                          <span class="text-xs text-gray-500">
-                            {album.releaseMonth
-                              ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, '0')}`
-                              : album.releaseYear}
-                          </span>
-                        </summary>
-                        <ul class="ml-4 mt-1">
-                          {album.songs.map(song => (
-                            <li>
-                              <a
-                                href={`${import.meta.env.BASE_URL}/${artistData.pathname}/${album.id}/${song.id}`}
-                                class={`block px-2 py-1 text-xs ${
-                                  isCurrentAlbum && currentSong === song.id
-                                    ? 'text-blue-600 font-semibold'
-                                    : 'hover:text-blue-500'
-                                }`}
-                              >
-                                <TitleDisplay title={song.meta.title} size="sm" />
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </details>
-                    </div>
-                  )
-                })}
-              </div>
+<nav class="p-4">
+  {
+    enrichedAlbums.map(
+      artistData =>
+        artistData.albums.length > 0 && (
+          <div class="mb-6">
+            <div class="px-2 py-3 mb-2 bg-gray-100 rounded">
+              <span class="font-medium text-sm">{artistData.displayName}</span>
             </div>
-          ),
-      )
-    }
-  </nav>
-</aside>
+            <div class="space-y-2">
+              {artistData.albums.map((album) => {
+                const isCurrentAlbum = currentArtist === artistData.pathname && currentAlbum === album.id
+
+                return (
+                  <div class="ml-2">
+                    <details open={isCurrentAlbum}>
+                      <summary class="flex items-center justify-between w-full px-2 py-1 hover:bg-gray-100 rounded cursor-pointer">
+                        <div class="flex flex-col">
+                          {album.showTypeInNav && (
+                            <span class="text-xs text-gray-600">
+                              {getDisplayAlbumType(album)}
+                            </span>
+                          )}
+                          <TitleDisplay title={album.title} size="sm" />
+                        </div>
+                        <span class="text-xs text-gray-500">
+                          {album.releaseMonth
+                            ? `${album.releaseYear}.${String(album.releaseMonth).padStart(2, '0')}`
+                            : album.releaseYear}
+                        </span>
+                      </summary>
+                      <ul class="ml-4 mt-1">
+                        {album.songs.map(song => (
+                          <li>
+                            <a
+                              href={`${import.meta.env.BASE_URL}/${artistData.pathname}/${album.id}/${song.id}`}
+                              class={`block px-2 py-1 text-xs ${
+                                isCurrentAlbum && currentSong === song.id
+                                  ? 'text-blue-600 font-semibold'
+                                  : 'hover:text-blue-500'
+                              }`}
+                            >
+                              <TitleDisplay title={song.meta.title} size="sm" />
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ),
+    )
+  }
+</nav>
+
 
 <style>
   details > summary {

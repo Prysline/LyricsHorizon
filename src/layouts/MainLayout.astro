@@ -1,7 +1,7 @@
 ---
-import Sidebar from '../components/Sidebar.astro'
+import Sidebar from "../components/Sidebar.astro";
 
-const title = 'Lyrics Horizon';
+const title = "Lyrics Horizon";
 ---
 
 <!doctype html>
@@ -12,22 +12,46 @@ const title = 'Lyrics Horizon';
     <title>{title} - 歌詞網站</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
-      html, body {
-        font-family: 'Noto Sans JP', sans-serif;
+      html,
+      body {
+        font-family: "Noto Sans JP", sans-serif;
         background-color: #f1f1f1;
         color: #333;
         line-height: 1.5;
       }
     </style>
   </head>
-  <body class="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-    <Sidebar />
+  <body>
+    <!-- Mobile Header (顯示於移動版) -->
+    <header class="mobile-header">
+      <label for="sidebar-toggle" class="hamburger-btn" aria-label="切換選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <h1 class="mobile-title">{title}</h1>
+    </header>
 
-    <main class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto bg-white/70 shadow-lg shadow-gray-200/50 backdrop-blur-sm">
-      <div class="max-w-4xl">
-        <slot />
-      </div>
-    </main>
+    <!-- Sidebar Toggle Checkbox (隱藏的控制開關) -->
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle" />
+
+    <!-- Overlay (點擊關閉側邊欄) -->
+    <label for="sidebar-toggle" class="overlay"></label>
+
+    <!-- Main Layout Container -->
+    <div class="layout-container">
+      <!-- Sidebar -->
+      <aside class="sidebar-container">
+        <Sidebar />
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="content-wrapper">
+          <slot />
+        </div>
+      </main>
+    </div>
   </body>
 </html>
 
@@ -38,6 +62,217 @@ const title = 'Lyrics Horizon';
     --text-color-secondary: #666;
     --background-light: #f1f1f1;
     --accent-color: #add7e0;
+    --sidebar-width: 288px; /* w-72 = 18rem = 288px */
+    --mobile-header-height: 64px;
+  }
+
+  /* 重置和基本樣式 */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* 隱藏側邊欄控制的 checkbox */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  /* Mobile Header 樣式 */
+  .mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-header-height);
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .mobile-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color-primary);
+    margin: 0;
+    padding-bottom: 0.25rem;
+  }
+
+  /* 漢堡按鈕樣式 */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .hamburger-btn span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: var(--text-color-primary);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  /* 漢堡按鈕動畫效果 */
+  .sidebar-toggle:checked
+    + .overlay
+    + .layout-container
+    .hamburger-btn
+    span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .sidebar-toggle:checked
+    + .overlay
+    + .layout-container
+    .hamburger-btn
+    span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .sidebar-toggle:checked
+    + .overlay
+    + .layout-container
+    .hamburger-btn
+    span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  /* Overlay 層 */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    cursor: pointer;
+  }
+
+  /* 主要佈局容器 */
+  .layout-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* 側邊欄容器 */
+  .sidebar-container {
+    width: var(--sidebar-width);
+    background: white;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 999;
+  }
+
+  /* 主要內容區域 */
+  .main-content {
+    flex: 1;
+    padding: 1.5rem 2rem 2.5rem;
+    overflow-x: auto;
+    background: linear-gradient(
+      135deg,
+      rgb(249 250 251) 0%,
+      rgb(243 244 246) 100%
+    );
+    position: relative;
+  }
+
+  .content-wrapper {
+    max-width: 64rem; /* max-w-4xl */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(4px);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin: 0 auto;
+  }
+
+  /* 桌面版樣式 (≥768px) */
+  @media (min-width: 1024px) {
+    .main-content {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .main-content {
+      padding: 2rem;
+    }
+    .mobile-header {
+      display: none !important;
+    }
+
+    .overlay {
+      display: none !important;
+    }
+  }
+
+  /* 移動版樣式 (<768px) */
+  @media (max-width: 767px) {
+    /* 顯示 Mobile Header */
+    .mobile-header {
+      display: flex;
+    }
+
+    /* 調整主要佈局 */
+    .layout-container {
+      padding-top: var(--mobile-header-height);
+    }
+
+    /* 側邊欄預設隱藏 */
+    .sidebar-container {
+      position: fixed;
+      top: var(--mobile-header-height);
+      left: 0;
+      height: calc(100vh - var(--mobile-header-height));
+      transform: translateX(-100%);
+      z-index: 999;
+    }
+
+    /* 側邊欄顯示時的狀態 */
+    .sidebar-toggle:checked ~ .layout-container .sidebar-container {
+      transform: translateX(0);
+    }
+
+    /* 顯示 Overlay */
+    .sidebar-toggle:checked ~ .overlay {
+      display: block;
+    }
+
+    /* 調整主要內容區域 */
+    .main-content {
+      width: 100%;
+      padding: 0;
+    }
+
+    .content-wrapper {
+      padding: 1.5rem;
+    }
+
+    /* 修正漢堡按鈕的位置 */
+    .layout-container .mobile-header {
+      position: fixed;
+      top: 0;
+    }
   }
 
   /* 自定義滾動條 */
@@ -56,7 +291,9 @@ const title = 'Lyrics Horizon';
   }
 
   /* 標題樣式 */
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     color: var(--text-color-primary);
     margin-bottom: 1rem;
     font-weight: 600;
