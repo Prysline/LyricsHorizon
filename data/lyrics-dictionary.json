@@ -79,6 +79,61 @@
       "original": "船(せん)",
       "replacement": "船(ふね)",
       "context": "歌詞讀音"
+    },
+    {
+      "original": "然(しか)れど",
+      "replacement": "然(さ)れど",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "昏(昏)く",
+      "replacement": "昏(くら)く",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "其(其)は",
+      "replacement": "其(そ)は",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "其(其)れ",
+      "replacement": "其(そ)れ",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "此(此)れ",
+      "replacement": "此(こ)れ",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "奔(奔)る",
+      "replacement": "奔(はし)る",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "術(じゅつ)も",
+      "replacement": "術(すべ)も",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "儘(儘)",
+      "replacement": "儘(まま)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "其(其)々",
+      "replacement": "其々(それぞれ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "彷徨(うろつ)い",
+      "replacement": "彷徨(さまよ)い",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "嗤(嗤)う",
+      "replacement": "嗤(わら)う",
+      "context": "歌詞讀音"
     }
   ]
 }
