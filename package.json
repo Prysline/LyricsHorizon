@@ -11,7 +11,8 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "convert": "node data/convert.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",

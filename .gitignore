@@ -23,4 +23,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-/data/*_lyrics
+data/output_lyrics
+data/input_lyrics/*.md

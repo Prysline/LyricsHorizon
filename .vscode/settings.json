@@ -8,5 +8,9 @@
     "editor.insertSpaces": true,
     "editor.detectIndentation": false
   },
-  "cSpell.words": ["frontmatter"]
+  "cSpell.words": [
+    "frontmatter",
+    "Kuromoji",
+    "Kuroshiro"
+  ]
 }

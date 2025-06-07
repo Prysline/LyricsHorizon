@@ -21,7 +21,6 @@ if (!fs.existsSync(outputDir)) {
 }
 
 // 載入自定義讀音字典
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function loadCustomDictionary() {
   const dictionaryPath = path.resolve(__dirname, "lyrics-dictionary.json")
   try {
@@ -32,22 +31,18 @@ function loadCustomDictionary() {
       replacement: entry.replacement,
     }))
   } catch (error) {
-    // eslint-disable-next-line no-undef
     console.error("載入自訂讀音字典失敗:", error)
     return []
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function safeReplace(content, original, replacement) {
   try {
     // 安全轉義特殊正則字元
     const escapedOriginal = original.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 
     // console.log("原始內容:", content);
-    // eslint-disable-next-line no-undef
     console.log("匹配模式:", escapedOriginal)
-    // eslint-disable-next-line no-undef
     console.log("替換內容:", replacement)
 
     return content.replace(new RegExp(escapedOriginal, "g"), replacement)
