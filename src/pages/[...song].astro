@@ -20,29 +20,30 @@ export async function getStaticPaths() {
       props: {
         frontmatter: file.meta,
         content: file.content(),
+        artistId: file.artistId,
       },
     }
   })
 }
 
 // const { artist, album, songName } = Astro.params;
-const { frontmatter, content } = Astro.props
-const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
+const { frontmatter, content, artistId } = Astro.props
+const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content, artistId)
 ---
 
 <MainLayout title={frontmatter.title}>
   <div class="lyrics-container">
     <h1>{frontmatter.title}</h1>
     {
-      parsedLyrics.map(line => (
+      parsedLyrics.map((line) => (
         <div class="lyrics-line">
           {line.map((segment) => {
             if (segment.type === lyricsElementType.HTML) {
               return <Fragment set:html={segment.content} />
             }
             if (
-              segment.type === lyricsElementType.FURIGANA
-              || segment.type === lyricsElementType.SPECIAL
+              segment.type === lyricsElementType.FURIGANA ||
+              segment.type === lyricsElementType.SPECIAL
             ) {
               if (segment.isNested) {
                 // 處理巢狀結構
@@ -53,7 +54,7 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
                         <span class="underline">{segment.content}</span>
                         <rt class="nested-rt">
                           {/* 遞迴渲染巢狀元素 */}
-                          {segment.nestedElements?.map(nestedSegment => (
+                          {segment.nestedElements?.map((nestedSegment) => (
                             <ruby>
                               {nestedSegment.content}
                               <rt>{nestedSegment.furigana}</rt>
@@ -66,7 +67,7 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
                       <ruby>
                         {segment.content}
                         <rt class="nested-rt">
-                          {segment.nestedElements?.map(nestedSegment => (
+                          {segment.nestedElements?.map((nestedSegment) => (
                             <ruby>
                               {nestedSegment.content}
                               <rt>{nestedSegment.furigana}</rt>
@@ -80,11 +81,9 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content);
               }
               return (
                 <ruby>
-                  {segment.type === lyricsElementType.SPECIAL
-? (
+                  {segment.type === lyricsElementType.SPECIAL ? (
                     <span class="underline">{segment.content}</span>
-                  )
-: (
+                  ) : (
                     segment.content
                   )}
                   <rt>{segment.furigana}</rt>

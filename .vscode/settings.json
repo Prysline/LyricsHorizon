@@ -8,9 +8,37 @@
     "editor.insertSpaces": true,
     "editor.detectIndentation": false
   },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode",
+    "editor.formatOnSave": true
+  },
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+  "prettier.tabWidth": 2,
+  "prettier.printWidth": 100,
   "cSpell.words": [
+    "AKIRA",
+    "Elemia",
+    "emafull",
     "frontmatter",
+    "furigana",
+    "hallowasa",
+    "Hikigane",
+    "Hiku",
+    "hymmnos",
     "Kuromoji",
-    "Kuroshiro"
+    "Kuroshiro",
+    "Metafalica",
+    "rhaplanca",
+    "RUMEI",
+    "SAKIYA",
+    "SALAVEC",
+    "Sekai",
+    "Shoujo",
+    "Shuuen",
+    "Tane",
+    "Tindharia",
+    "tonelico",
+    "vanistar"
   ]
 }

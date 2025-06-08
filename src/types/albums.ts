@@ -9,6 +9,7 @@ export type AlbumBaseType =
   | 'Anniversary Maxi'
   | 'Prologue Maxi'
   | 'Major Debut Album'
+  | 'Beyond Story Maxi'
 
 /**
  * 專輯資訊介面
