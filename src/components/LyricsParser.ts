@@ -60,7 +60,8 @@ export class LyricsParser {
       .trim()
       .replace(/^---[\s\S]*?---/, '')
       .trim()
-    const lines = mainContent.split('\n')
+    const processedContent = this.preprocessMultiColumn(mainContent)
+    const lines = processedContent.split('\n')
     const result: ParsedLyricsElement[][] = []
     let htmlBlock = ''
     let inHtmlBlock = false
@@ -71,6 +72,27 @@ export class LyricsParser {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]
       const trimmedLine = line.trim()
+
+      const multiColumnMatch = line.match(/__MULTI_COLUMN_START__(.*?)__MULTI_COLUMN_END__/)
+      if (multiColumnMatch) {
+        try {
+          const columnsData = JSON.parse(multiColumnMatch[1])
+          // 傳遞固定標音規則給多欄資料
+          const processedColumns = columnsData.map((column: any) => ({
+            ...column,
+            content: this.reprocessColumnWithPronunciations(column.content, fixedPronunciations)
+          }))
+
+          result.push([{
+            type: lyricsElementType.MULTI_COLUMN,
+            content: '',
+            columns: processedColumns
+          }])
+          continue
+        } catch (error) {
+          console.warn('Failed to parse multi-column data:', error)
+        }
+      }
 
       // HTML 區塊處理邏輯
       if (/<[^>]+>/.test(trimmedLine) && !inHtmlBlock) {
@@ -108,6 +130,133 @@ export class LyricsParser {
       }
     }
     return result
+  }
+
+  /**
+   * 多欄格式預處理
+   * 僅識別行首的特定語法標記，避免內容干擾
+   */
+  private static preprocessMultiColumn(content: string): string {
+    const multiColumnRegex = /^:::multi-column\s*$\n([\s\S]*?)\n^:::$/gm
+
+    const result = content.replace(multiColumnRegex, (match, columnContent) => {
+
+      try {
+        const multiColumnData = this.parseMultiColumnBlock(columnContent)
+
+        const jsonString = JSON.stringify(multiColumnData)
+
+        return `__MULTI_COLUMN_START__${jsonString}__MULTI_COLUMN_END__`
+      } catch (error) {
+        console.error('多欄解析失敗：', error)
+        return match.replace(/^:::.*$/gm, '').trim()
+      }
+    })
+
+    return result
+  }
+
+  /**
+   * 解析多欄區塊內容
+   * 嚴格識別 ::column-數字 和 ::end 標記
+   */
+  private static parseMultiColumnBlock(columnContent: string): {
+    number: number
+    content: ParsedLyricsElement[][]
+  }[] {
+    const columns: { number: number; content: ParsedLyricsElement[][] }[] = []
+
+    // 分割內容為行陣列，便於逐行分析
+    const lines = columnContent.split('\n')
+    let currentColumn: { number: number; lines: string[] } | null = null
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim()
+
+      // 精確匹配：行首的欄位開始標記
+      const columnStartMatch = line.match(/^::column-(\d+)$/)
+      if (columnStartMatch) {
+        // 保存前一欄位（如果存在）
+        if (currentColumn) {
+          columns.push(this.processColumnContent(currentColumn))
+        }
+
+        // 開始新欄位
+        currentColumn = {
+          number: parseInt(columnStartMatch[1], 10),
+          lines: []
+        }
+        continue
+      }
+
+      // 精確匹配：行首的欄位結束標記
+      if (line === '::end') {
+        if (currentColumn) {
+          columns.push(this.processColumnContent(currentColumn))
+          currentColumn = null
+        }
+        continue
+      }
+
+      // 收集欄位內容（忽略非語法標記的冒號）
+      if (currentColumn) {
+        currentColumn.lines.push(lines[i]) // 保留原始行內容，包含空白
+      }
+    }
+
+    // 處理最後一個欄位（如果沒有明確的 ::end）
+    if (currentColumn) {
+      columns.push(this.processColumnContent(currentColumn))
+    }
+
+    // 按編號排序，保持原始間隔
+    return columns.sort((a, b) => a.number - b.number)
+  }
+
+  /**
+   * 處理單一欄位的內容解析
+   */
+  private static processColumnContent(column: { number: number; lines: string[] }): {
+    number: number
+    content: ParsedLyricsElement[][]
+  } {
+    const parsedContent: ParsedLyricsElement[][] = []
+
+    column.lines.forEach(line => {
+      if (line.trim() === '') {
+        parsedContent.push([{ type: lyricsElementType.HTML, content: '<br>' }])
+      } else {
+        // 重用現有解析邏輯，不會受內容中的冒號影響
+        parsedContent.push(this.parseLine(line, {}))
+      }
+    })
+
+    return {
+      number: column.number,
+      content: parsedContent
+    }
+  }
+
+  /**
+   * 重新處理欄位內容，套用固定標音規則
+   * @param columnContent 原始欄位內容
+   * @param fixedPronunciations 固定標音規則
+   * @returns 重新處理後的欄位內容
+   */
+  private static reprocessColumnWithPronunciations(
+    columnContent: ParsedLyricsElement[][],
+    fixedPronunciations: Record<string, string>
+  ): ParsedLyricsElement[][] {
+    return columnContent.map(line => {
+      return line.map(element => {
+        // 僅重新處理純文字元素
+        if (element.type === lyricsElementType.TEXT && element.content.trim()) {
+          // 重新解析並套用固定標音
+          return this.parseLine(element.content.trim(), fixedPronunciations)
+        }
+        return [element] // 其他類型元素保持不變
+      }).flat()
+    })
   }
 
   /**
@@ -189,8 +338,29 @@ export class LyricsParser {
   ): Match[] {
     const matches: Match[] = []
 
-    for (const [word, pronunciation] of Object.entries(fixedPronunciations)) {
-      // 使用全域搜尋，支援同行多次出現的詞彙
+    // 分離一般詞彙與特殊符號規則
+    const { regularWords, specialSymbols } = this.categorizeFixedPronunciations(fixedPronunciations)
+
+    // 優先處理特殊符號（避免被一般詞彙處理覆蓋）
+    for (const [symbol, pronunciation] of Object.entries(specialSymbols)) {
+      const escapedSymbol = this.escapeRegExp(symbol)
+      const regex = new RegExp(escapedSymbol, 'g')
+      let match: RegExpExecArray | null
+
+      while ((match = regex.exec(text)) !== null) {
+        matches.push({
+          index: match.index,
+          length: match[0].length,
+          content: symbol,
+          furigana: pronunciation,
+          type: matchType.FIXED,
+          matchString: symbol,
+        })
+      }
+    }
+
+    // 處理一般詞彙（使用詞邊界匹配）
+    for (const [word, pronunciation] of Object.entries(regularWords)) {
       const regex = new RegExp(`\\b${this.escapeRegExp(word)}\\b`, 'g')
       let match: RegExpExecArray | null
 
@@ -207,6 +377,31 @@ export class LyricsParser {
     }
 
     return matches
+  }
+
+  /**
+   * 分類固定標音規則
+   * 區分一般詞彙與特殊符號
+   */
+  private static categorizeFixedPronunciations(
+    fixedPronunciations: Record<string, string>
+  ): {
+    regularWords: Record<string, string>
+    specialSymbols: Record<string, string>
+  } {
+    const regularWords: Record<string, string> = {}
+    const specialSymbols: Record<string, string> = {}
+
+    Object.entries(fixedPronunciations).forEach(([key, value]) => {
+      // 檢查是否包含特殊符號（非字母、數字、假名、漢字）
+      if (/[^a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(key)) {
+        specialSymbols[key] = value
+      } else {
+        regularWords[key] = value
+      }
+    })
+
+    return { regularWords, specialSymbols }
   }
 
   /**
@@ -300,6 +495,21 @@ export class LyricsParser {
     line: string,
     fixedPronunciations: Record<string, string> = {}
   ): ParsedLyricsElement[] {
+    const multiColumnMatch = line.match(/__MULTI_COLUMN_START__(.*?)__MULTI_COLUMN_END__/)
+    if (multiColumnMatch) {
+      try {
+        const columnsData = JSON.parse(multiColumnMatch[1])
+        return [{
+          type: lyricsElementType.MULTI_COLUMN,
+          content: '',
+          columns: columnsData
+        }]
+      } catch (error) {
+        console.warn('Failed to parse multi-column data:', error)
+        return [{ type: lyricsElementType.TEXT, content: line }]
+      }
+    }
+
     const parsedContents: ParsedLyricsElement[] = []
     const currentLine = line
     let lastIndex = 0

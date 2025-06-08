@@ -10,6 +10,7 @@ export enum lyricsElementType {
   HTML = 'html',
   FURIGANA = 'furigana',
   SPECIAL = 'special',
+  MULTI_COLUMN = 'multi-column',
 }
 
 export type LyricsElementType = lyricsElementType
@@ -49,6 +50,10 @@ export interface ParsedLyricsElement extends LyricsElement {
   isModified?: boolean
   isNested?: boolean
   nestedElements?: ParsedLyricsElement[]
+  columns?: Array<{
+    number: number
+    content: ParsedLyricsElement[][]
+  }>
 }
 
 /**
@@ -60,6 +65,10 @@ export interface StyledLyricsElement extends LyricsElement {
   style?: Record<string, string>
   isNested?: boolean
   nestedElements?: ParsedLyricsElement[]
+  columns?: Array<{
+    number: number
+    content: ParsedLyricsElement[][]
+  }>
 }
 
 /**

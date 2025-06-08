@@ -38,6 +38,72 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content, artist
       parsedLyrics.map((line) => (
         <div class="lyrics-line">
           {line.map((segment) => {
+            if (segment.type === lyricsElementType.MULTI_COLUMN) {
+              // 分析欄位編號分佈
+              const columnNumbers = segment.columns?.map((col) => col.number) || []
+              const maxColumnNumber = Math.max(...columnNumbers)
+              const actualColumnCount = columnNumbers.length
+
+              // 決定 Grid 配置策略
+              const gridColumnCount = maxColumnNumber
+
+              // 建立欄位對應表
+              const columnMap = new Map()
+              segment.columns?.forEach((col) => {
+                columnMap.set(col.number, col)
+              })
+
+              // 生成完整的欄位陣列（包含空欄位）
+              const fullColumns = Array.from({ length: gridColumnCount }, (_, index) => {
+                const columnNumber = index + 1
+                return columnMap.get(columnNumber) || null
+              })
+
+              return (
+                <div
+                  class="multi-column-container"
+                  style={`grid-template-columns: repeat(${gridColumnCount}, 1fr);`}
+                >
+                  {fullColumns.map((column, index) => (
+                    <div class={`column column-${index + 1}`}>
+                      {column ? (
+                        // 實際欄位內容渲染
+                        column.content.map((columnLine: StyledLyricsElement[]) => (
+                          <div class="column-line">
+                            {columnLine.map((columnSegment: StyledLyricsElement) => {
+                              // 現有的欄位內容渲染邏輯
+                              if (columnSegment.type === lyricsElementType.HTML) {
+                                return <Fragment set:html={columnSegment.content} />
+                              }
+                              if (
+                                columnSegment.type === lyricsElementType.FURIGANA ||
+                                columnSegment.type === lyricsElementType.SPECIAL
+                              ) {
+                                return (
+                                  <ruby>
+                                    {columnSegment.type === lyricsElementType.SPECIAL ? (
+                                      <span class="underline">{columnSegment.content}</span>
+                                    ) : (
+                                      columnSegment.content
+                                    )}
+                                    <rt>{columnSegment.furigana}</rt>
+                                  </ruby>
+                                )
+                              }
+                              return <span>{columnSegment.content}</span>
+                            })}
+                          </div>
+                        ))
+                      ) : (
+                        // 空欄位佔位符
+                        <div class="empty-column">&nbsp;</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
+            }
+
             if (segment.type === lyricsElementType.HTML) {
               return <Fragment set:html={segment.content} />
             }
@@ -150,4 +216,62 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content, artist
   .underline {
     text-decoration: underline;
   }
+
+  /* Grid 佈局基礎樣式 */
+  .multi-column-container {
+    display: grid;
+    gap: 1rem;
+    align-items: stretch;
+    margin: 1rem 0;
+    width: 100%;
+    /* grid-template-columns 由 inline style 動態設定 */
+  }
+
+  .column {
+    min-height: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .column-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.2em;
+    min-height: 1em;
+    margin: 0.2em 0;
+  }
+
+  /* 空欄位樣式 */
+  .empty-column {
+    opacity: 0.3;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    min-height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #999;
+  }
+
+  /* 響應式：768px 以下垂直堆疊 */
+  @media (max-width: 768px) {
+    .multi-column-container {
+      grid-template-columns: 1fr !important;
+      gap: 1rem;
+    }
+
+    .empty-column {
+      display: none; /* 移動版隱藏空欄位 */
+    }
+  }
+
+  /* 除錯用樣式（可選） */
+  /* .column {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    border-radius: 4px;
+  } */
 </style>
