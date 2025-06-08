@@ -134,6 +134,116 @@
       "original": "嗤(嗤)う",
       "replacement": "嗤(わら)う",
       "context": "歌詞讀音"
+    },
+    {
+      "original": "天上(てんじょう)",
+      "replacement": "天上(あまかみ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "霊(れい)",
+      "replacement": "霊(たま)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "冠(かんむり)火(ひ)",
+      "replacement": "冠(かんむり)火(び)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "何(なん)人(にん)",
+      "replacement": "何(なに)人(ひと)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "幸(こう)",
+      "replacement": "幸(ゆき)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "藍(あい)海(うみ)",
+      "replacement": "藍(あい)海(み)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "流(りゅう)るる",
+      "replacement": "流(なが)るる",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "移(うつ)ろひ",
+      "replacement": "移(うつ)ろ{{ひ:い}}",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "逆(ぎゃく)凪(な)ぎ",
+      "replacement": "逆(さか)凪(な)ぎ",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "故郷(こきょう)の音(おと)",
+      "replacement": "故(ふる)郷(さと)の音(ね)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "奏(そう)で",
+      "replacement": "奏(かな)で",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "凱(凱)",
+      "replacement": "凱(がい)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "飛翔(ひしょう)く",
+      "replacement": "飛翔(はばた)く",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "碑(いしぶみ)",
+      "replacement": "碑(ひ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "一(いち)重(じゅう)",
+      "replacement": "一重(ひとえ)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "虚(うつ)ろふ",
+      "replacement": "虚(うつ)ろ{{ふ:う}}",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "精霊(せいれい)",
+      "replacement": "精霊(しょうれい)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "風(かぜ)息(いき)",
+      "replacement": "風(かざ)息(いき)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "結(ゆい)ふ",
+      "replacement": "結(ゆ){{ふ:う}}",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "真(ま)荼(荼)羅(ら)",
+      "replacement": "真荼羅(まんだら)",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "謳(謳)ひ",
+      "replacement": "謳(うた){{ひ:い}}",
+      "context": "歌詞讀音"
+    },
+    {
+      "original": "謳(謳)",
+      "replacement": "謳(うた)",
+      "context": "歌詞讀音"
     }
   ]
 }

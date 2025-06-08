@@ -1,0 +1,96 @@
+{
+  "custom_readings": [
+    {
+      "original": "天上(てんじょう)",
+      "replacement": "天上(あまかみ)"
+    },
+    {
+      "original": "霊(れい)",
+      "replacement": "霊(たま)"
+    },
+    {
+      "original": "冠(かんむり)火(ひ)",
+      "replacement": "冠(かんむり)火(び)"
+    },
+    {
+      "original": "何(なん)人(にん)",
+      "replacement": "何(なに)人(ひと)"
+    },
+    {
+      "original": "幸(こう)",
+      "replacement": "幸(ゆき)"
+    },
+    {
+      "original": "藍(あい)海(うみ)",
+      "replacement": "藍(あい)海(み)"
+    },
+    {
+      "original": "流(りゅう)るる",
+      "replacement": "流(なが)るる"
+    },
+    {
+      "original": "移(うつ)ろひ",
+      "replacement": "移(うつ)ろ{{ひ:い}}"
+    },
+    {
+      "original": "逆(ぎゃく)凪(な)ぎ",
+      "replacement": "逆(さか)凪(な)ぎ"
+    },
+    {
+      "original": "故郷(こきょう)の音(おと)",
+      "replacement": "故(ふる)郷(さと)の音(ね)"
+    },
+    {
+      "original": "奏(そう)で",
+      "replacement": "奏(かな)で"
+    },
+    {
+      "original": "凱(凱)",
+      "replacement": "凱(がい)"
+    },
+    {
+      "original": "飛翔(ひしょう)く",
+      "replacement": "飛翔(はばた)く"
+    },
+    {
+      "original": "碑(いしぶみ)",
+      "replacement": "碑(ひ)"
+    },
+    {
+      "original": "一(いち)重(じゅう)",
+      "replacement": "一重(ひとえ)"
+    },
+    {
+      "original": "虚(うつ)ろふ",
+      "replacement": "虚(うつ)ろ{{ふ:う}}"
+    },
+    {
+      "original": "精霊(せいれい)",
+      "replacement": "精霊(しょうれい)"
+    },
+    {
+      "original": "風(かぜ)息(いき)",
+      "replacement": "風(かざ)息(いき)"
+    },
+    {
+      "original": "結(ゆい)ふ",
+      "replacement": "結(ゆ){{ふ:う}}"
+    },
+    {
+      "original": "真(ま)荼(荼)羅(ら)",
+      "replacement": "真荼羅(まんだら)"
+    },
+    {
+      "original": "謳(謳)ひ",
+      "replacement": "謳(うた){{ひ:い}}"
+    },
+    {
+      "original": "謳(謳)",
+      "replacement": "謳(うた)"
+    },
+    {
+      "original": "種子(しゅし)",
+      "replacement": "種子(たね)"
+    }
+  ]
+}

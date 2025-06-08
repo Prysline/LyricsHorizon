@@ -1,0 +1,112 @@
+{
+  "custom_readings": [
+    {
+      "original": "一(いち)人(にん)",
+      "replacement": "一人(ひとり)"
+    },
+    {
+      "original": "二(に)人(にん)",
+      "replacement": "二人(ふたり)"
+    },
+    {
+      "original": "今(こん)",
+      "replacement": "今(いま)"
+    },
+    {
+      "original": "物心(ぶっしん)",
+      "replacement": "物心(ものごころ)"
+    },
+    {
+      "original": "人(じん)",
+      "replacement": "人(ひと)"
+    },
+    {
+      "original": "心(しん)",
+      "replacement": "心(こころ)"
+    },
+    {
+      "original": "下(か)",
+      "replacement": "下(した)"
+    },
+    {
+      "original": "傍(はた)に",
+      "replacement": "傍(そば)に"
+    },
+    {
+      "original": "一(いち)本(ほん)",
+      "replacement": "一本(いっぽん)"
+    },
+    {
+      "original": "奴(やっこ)",
+      "replacement": "奴(やつ)"
+    },
+    {
+      "original": "鏡(きょう)",
+      "replacement": "鏡(かがみ)"
+    },
+    {
+      "original": "君(くん)",
+      "replacement": "君(きみ)"
+    },
+    {
+      "original": "鳴(な)呼(こ)",
+      "replacement": "鳴呼(ああ)"
+    },
+    {
+      "original": "傍(はた)",
+      "replacement": "傍(そば)"
+    },
+    {
+      "original": "車(しゃ)",
+      "replacement": "車(くるま)"
+    },
+    {
+      "original": "船(せん)",
+      "replacement": "船(ふね)"
+    },
+    {
+      "original": "然(しか)れど",
+      "replacement": "然(さ)れど"
+    },
+    {
+      "original": "昏(昏)く",
+      "replacement": "昏(くら)く"
+    },
+    {
+      "original": "其(其)は",
+      "replacement": "其(そ)は"
+    },
+    {
+      "original": "其(其)れ",
+      "replacement": "其(そ)れ"
+    },
+    {
+      "original": "此(此)れ",
+      "replacement": "此(こ)れ"
+    },
+    {
+      "original": "奔(奔)る",
+      "replacement": "奔(はし)る"
+    },
+    {
+      "original": "術(じゅつ)も",
+      "replacement": "術(すべ)も"
+    },
+    {
+      "original": "儘(儘)",
+      "replacement": "儘(まま)"
+    },
+    {
+      "original": "其(其)々",
+      "replacement": "其々(それぞれ)"
+    },
+    {
+      "original": "彷徨(うろつ)い",
+      "replacement": "彷徨(さまよ)い"
+    },
+    {
+      "original": "嗤(嗤)う",
+      "replacement": "嗤(わら)う"
+    }
+  ]
+}

@@ -12,7 +12,10 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "convert": "node data/convert.mjs"
+    "convert": "node data/convert.mjs --all",
+    "convert:horizon": "node data/convert-horizon.mjs",
+    "convert:ar-tonelico": "node data/convert-ar-tonelico.mjs",
+    "convert:help": "node data/convert.mjs --help"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",
