@@ -227,6 +227,27 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content, artist
     /* grid-template-columns 由 inline style 動態設定 */
   }
 
+  .multi-column-container .column:nth-child(even) {
+    background-color: #eee; /* 淡色背景 */
+    border-radius: 4px;
+    padding: 0.5rem;
+  }
+
+  .multi-column-container[style*='grid-template-columns: repeat(2'] .column {
+    font-size: 0.95rem;
+  }
+
+  /* 三欄時的字體調整 */
+  .multi-column-container[style*='grid-template-columns: repeat(3'] .column {
+    font-size: 0.875rem; /* 14px，約縮小12.5% */
+  }
+
+  /* 四欄以上時的進一步調整 */
+  .multi-column-container[style*='grid-template-columns: repeat(4'] .column,
+  .multi-column-container[style*='grid-template-columns: repeat(5'] .column {
+    font-size: 0.8rem; /* 12.8px，約縮小20% */
+  }
+
   .column {
     min-height: 1em;
     display: flex;
@@ -266,12 +287,9 @@ const parsedLyrics: StyledLyricsElement[][] = LyricsParser.parse(content, artist
     .empty-column {
       display: none; /* 移動版隱藏空欄位 */
     }
-  }
 
-  /* 除錯用樣式（可選） */
-  /* .column {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 0.5rem;
-    border-radius: 4px;
-  } */
+    .multi-column-container .column {
+      font-size: 1rem !important;
+    }
+  }
 </style>

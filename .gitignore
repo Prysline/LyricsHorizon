@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 data/output_lyrics
 data/input_lyrics/*.md
+data/input_lyrics/*/*.md

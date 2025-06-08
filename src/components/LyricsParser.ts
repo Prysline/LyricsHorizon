@@ -223,10 +223,9 @@ export class LyricsParser {
     const parsedContent: ParsedLyricsElement[][] = []
 
     column.lines.forEach(line => {
-      if (line.trim() === '') {
+      if (line.length === 0) {
         parsedContent.push([{ type: lyricsElementType.HTML, content: '<br>' }])
       } else {
-        // 重用現有解析邏輯，不會受內容中的冒號影響
         parsedContent.push(this.parseLine(line, {}))
       }
     })
@@ -252,7 +251,7 @@ export class LyricsParser {
         // 僅重新處理純文字元素
         if (element.type === lyricsElementType.TEXT && element.content.trim()) {
           // 重新解析並套用固定標音
-          return this.parseLine(element.content.trim(), fixedPronunciations)
+          return this.parseLine(element.content, fixedPronunciations)
         }
         return [element] // 其他類型元素保持不變
       }).flat()

@@ -91,6 +91,126 @@
     {
       "original": "種子(しゅし)",
       "replacement": "種子(たね)"
+    },
+    {
+      "original": "聲(聲)",
+      "replacement": "聲(ごえ)"
+    },
+    {
+      "original": "灯(とう)して",
+      "replacement": "灯(とも)して"
+    },
+    {
+      "original": "辺(あたり)",
+      "replacement": "辺(べ)"
+    },
+    {
+      "original": "焔(ほのお)",
+      "replacement": "焔(ほむら)"
+    },
+    {
+      "original": "朝陽(あさひ)",
+      "replacement": "朝陽(かぎろい)"
+    },
+    {
+      "original": "來(來)たれや",
+      "replacement": "來(き)たれや"
+    },
+    {
+      "original": "幽(かそけ)けき",
+      "replacement": "幽(かそ)けき"
+    },
+    {
+      "original": "來(來)る",
+      "replacement": "來(く)る"
+    },
+    {
+      "original": "授(授)く",
+      "replacement": "授(さず)く"
+    },
+    {
+      "original": "刻(こく)",
+      "replacement": "刻(とき)"
+    },
+    {
+      "original": "我(わが)ぞ",
+      "replacement": "我(われ)ぞ"
+    },
+    {
+      "original": "生命(せいめい)",
+      "replacement": "生命(いのち)"
+    },
+    {
+      "original": "光(こう)",
+      "replacement": "光(ひかり)"
+    },
+    {
+      "original": "一(いち)歩(ほ)",
+      "replacement": "一歩(いっぽ)"
+    },
+    {
+      "original": "靭(うつぼ)く",
+      "replacement": "靭(つよ)く"
+    },
+    {
+      "original": "腳(腳)",
+      "replacement": "腳(あし)"
+    },
+    {
+      "original": "行(い)く",
+      "replacement": "行(ゆ)く"
+    },
+    {
+      "original": "渓(けい)",
+      "replacement": "渓(たに)"
+    },
+    {
+      "original": "湖(みずうみ)",
+      "replacement": "湖(みず)"
+    },
+    {
+      "original": "満(まん)てる",
+      "replacement": "満(み)てる"
+    },
+    {
+      "original": "生(なま)い",
+      "replacement": "生(お)い"
+    },
+    {
+      "original": "土(ど)",
+      "replacement": "土(つち)"
+    },
+    {
+      "original": "目(め)眩(まばゆ)き",
+      "replacement": "目眩(まばゆ)き"
+    },
+    {
+      "original": "環(たまき)",
+      "replacement": "環(わ)"
+    },
+    {
+      "original": "遙(遙)か",
+      "replacement": "遙(はる)か"
+    },
+    {
+      "original": "屆(屆)け",
+      "replacement": "屆(とど)け"
+    },
+    {
+      "original": "希(こいねが)い",
+      "replacement": "希(ねが)い"
+    },
+    {
+      "original": "出(で)ずる",
+      "replacement": "出(い)ずる"
+    },
+    {
+      "original": "明日(あした)も",
+      "replacement": "明日(あす)も"
+    },
+    {
+      "original": "清(きよ)き",
+      "replacement": "清(さや)き"
     }
   ]
 }
